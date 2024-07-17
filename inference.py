@@ -4,7 +4,6 @@ import torch
 from time import  strftime
 import os, sys, time
 from argparse import ArgumentParser
-
 import cv2
 from src.utils.preprocess import CropAndExtract
 from src.test_audio2coeff import Audio2Coeff  
@@ -15,11 +14,9 @@ from src.utils.init_path import init_path
 
 def main(args):
     #torch.backends.cudnn.enabled = False
-
-    pic_path = args.
     save_dir = os.path.join(args.result_dir, strftime("%Y_%m_%d_%H.%M.%S"))
     os.makedirs(save_dir, exist_ok=True)
-
+    
     if args.source_image.lower().endswith('.mp4'):
         # Extract a frame from the video (e.g., first frame)
         cap = cv2.VideoCapture(args.source_image)
@@ -28,11 +25,11 @@ def main(args):
             print("Error reading video frame")
             return
         cap.release()
-
+        
         # Save the frame to a temporary image file
         temp_img_path = os.path.join(save_dir, 'source_frame.png')
         cv2.imwrite(temp_img_path, frame)
-
+        
         # Debug print to check path
         #print(f"Extracted frame saved to: {temp_img_path}")
 
@@ -41,6 +38,7 @@ def main(args):
     else:
         # Use the provided image path directly
         pic_path = args.source_image
+    
     audio_path = args.driven_audio
     save_dir = os.path.join(args.result_dir, strftime("%Y_%m_%d_%H.%M.%S"))
     os.makedirs(save_dir, exist_ok=True)
